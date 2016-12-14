@@ -1,0 +1,147 @@
+
+.cascade-title {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 0.15em 0.15em 0 0;
+    border: 0.05rem solid #77aeb5;
+    background-color: white;
+    cursor: pointer;
+    text-align: left;
+    overflow: hidden;
+}
+
+.cascade-title:after {
+    position: absolute;
+    top: 50%;
+    right: 2%;
+    transform: translateY(-0.125em);
+    content: "";
+    width: 0;
+    height: 0;
+    border: 0.25em solid #ffffff;
+    border-top-color: #77aeb5;
+}
+
+.cascade-title-open:after {
+    position: absolute;
+    top: 50%;
+    right: 2%;
+    transform: translateY(-0.375em);
+    content: "";
+    width: 0;
+    height: 0;
+    border: 0.25em solid #ffffff;
+    border-bottom-color: #77aeb5;
+}
+
+.cascade-body{
+    position: absolute;
+    display: none;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 0 0 0.2em 0.2em;
+    border: 0.05em solid #77aeb5;
+    cursor: pointer;
+    z-index: 10000;
+    transform: translateY(-0.05em);
+}
+.cascade-body-right {
+    left: 0;
+}
+.cascade-body-left {
+    right: 0;
+}
+
+.cascade-item{
+    position: relative;
+}
+
+.cascade-item-right:after {
+    position: absolute;
+    top: 50%;
+    right: 1%;
+    transform: translateY(-0.2em);
+    content: "";
+    width: 0;
+    height: 0;
+    border: 0.2em solid rgba(255, 255, 255, 0);
+    border-left-color: #99e668;
+}
+.cascade-item-left:after {
+    position: absolute;
+    top: 50%;
+    left: 1%;
+    transform: translateY(-0.2em);
+    content: "";
+    width: 0;
+    height: 0;
+    border: 0.2em solid rgba(255, 255, 255, 0);
+    border-right-color: #99e668;
+}
+
+.cascade-item-box {
+    position: absolute;
+    display: none;
+    width: auto;
+    white-space:nowrap;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 0.2em;
+    border: 0.05em solid #77aeb5;
+    top:0;
+}
+.cascade-left {
+    right:100%;
+}
+.cascade-right {
+    left:100%;
+}
+
+.cascade-text {
+    height:100%;
+    white-space:nowrap;
+    font-size: 0.65em;
+    color: #3e3e3e;
+    padding: 0 1em;
+    text-align: left;
+    border-radius: 0.2em;
+}
+.cascade-text:hover {
+    background-color: grey;
+    color: #ffffff;
+}
+.cascade-title .cascade-text:hover{
+    background-color: #ffffff;
+    color: #3e3e3e;
+}
+.cascade-paging {
+    font-size: 0.4em;
+    color: #979797;
+    cursor: default;
+}
+.cascade-paging:hover {
+    background-color: #ffffff;
+    color: #979797;
+}
+.cascade-selected {
+    background-color: #3698d9;
+    color: #ffffff;
+}
+.cascade-disable {
+    color: #979797;
+    cursor: no-drop;
+}
+.cascade-search {
+    position: relative;
+    padding: 0 1em;
+    width: 100%;
+    height:100%;
+    font-size: 0.65em;
+    color: #3e3e3e;
+    display: block;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}
