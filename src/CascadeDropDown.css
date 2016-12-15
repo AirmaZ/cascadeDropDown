@@ -90,8 +90,10 @@
     box-sizing: border-box;
     border-radius: 0.2em;
     border: 0.05em solid #77aeb5;
+    vertical-align:middle;
     top:0;
 }
+
 .cascade-left {
     right:100%;
 }

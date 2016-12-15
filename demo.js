@@ -18,6 +18,17 @@ var data = {
             "12": {name: "小类2"}
         }
     },
+    "ceshi": {
+        name: "7项",children: {
+            "01": {name: "小类1"},
+            "02": {name: "小类2"},
+            "03": {name: "小类1"},
+            "04": {name: "小类2"},
+            "05": {name: "小类1"},
+            "06": {name: "小类2"},
+            "07": {name: "小类1"}
+        }
+    },
     "2dfe": {
         name: "这里面有不可选", children: {
             "04": {
@@ -55,7 +66,8 @@ var data = {
         name: "大类2", children: {
             "04": {
                 name: "小类1", children: {
-                    "xx": {name: "子类"}
+                    "xx": {name: "子类"},
+                    "IPHONE": {name: "iPhone"}
                 }
             },
             "05": {name: "小类2"},
@@ -87,6 +99,8 @@ var data = {
             "05": {name: "小类2"},
             "06": {name: "好长好长的一段文字"},
             "07": {name: "小类2"},
+            "xba": {name: "xbox"},
+            "001001": {name: "ps4"},
             "all": {name: "默认选中的"}
         }
     },
@@ -117,12 +131,13 @@ var data = {
 var dropDown = $("#dropDown").initCascadeDropDown({
     options:{
         "width":"150px",
-        "height":"20px",
-        // "size":"14px",
+        "height":"30px",
+        "size":"20px",
         "paging":7,
         "search":true,
-        // "selected":"all",
+        "selected":"001001",
         "direction":"right",
+        "placeholder":"请选择",
         "isCategoriesSelected":true,
         "clickCallback":function (data) {
             console.log("标题点击事件");
@@ -143,7 +158,8 @@ var dropDown = $("#dropDown").initCascadeDropDown({
     },
     data : data
 });
-dropDown.setCascadeData({"all":"所有维度"});
+// dropDown.setCascadeData(13);
+// dropDown.setCascadeData(13);
 console.log("获取数据：");
 console.log(dropDown.getCascadeData());
 console.log("搜索数据："+dropDown.getNameOfValue(18));

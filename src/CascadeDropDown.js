@@ -58,12 +58,13 @@
      * @param searchText
      */
     function filterTree(data,searchText) {
+        searchText = searchText.toLowerCase();
         $.each(data,function (index, item) {
             if (item.children) {
                 filterTree(item.children,searchText);
             }
             if (item.children && Object.keys(item.children).length == 0) item.children = undefined;
-            if (!item.children && item.name.indexOf(searchText) === -1) {
+            if (!item.children && item.name.toLowerCase().indexOf(searchText) === -1) {
                 delete data[index];
             }
         });
@@ -81,7 +82,7 @@
         filterTree(data,searchText);
         var length = Object.keys(data).length;
         var pagingObj = [];
-        for (var i = 0; i <= length/paging; i++){
+        for (var i = 0; i < length/paging; i++){
             pagingObj[i] = {};
             $.each(data,function (index,item) {
                 if(Object.keys(pagingObj[i]).length === paging)return false;
@@ -124,17 +125,19 @@
     /**
      * 根据数据中的value寻找对应的name文本
      * @param value
+     * @param data
      * @return {*}
      */
-    function getNameOfValue(value) {
+    function getNameOfValue(value,data) {
         var result = null;
-            $.each(dropDownData,function (index,item) {
+        data = data || dropDownData;
+            $.each(data,function (index,item) {
                 if(index == value){
                     result =item.name;
                     return false;
                 }
                 else if(item.children){
-                    result = getDataForId(item.children,value);
+                    result = getNameOfValue(value,item.children);
                     if(result) return false;
                 }
             });
@@ -175,14 +178,15 @@
      * @param $dom
      * @param cascadeText
      * @param eventCallback
+     * @param placeholder
      * @return {boolean}
      */
-    function initSearch(OptionSearch,$dom,cascadeText,eventCallback) {
+    function initSearch(OptionSearch,$dom,cascadeText,eventCallback,placeholder) {
         if(!OptionSearch) {
             $(cascadeText).appendTo($dom);
             return false;
         }
-        var cascadeSearch = "<input type='text' placeholder='Search...' class='cascade-search'>";
+        var cascadeSearch = "<input type='text' placeholder='"+placeholder+"' class='cascade-search'>";
         var $cascadeSearch = $(cascadeSearch).appendTo($dom);
         eventCallback($cascadeSearch,6);
     }
@@ -206,9 +210,14 @@
      * @param data
      */
     function setCascadeData(data) {
-        var $ele = this;
+        var $ele =this;
         var $thisCascadeBody = $ele.find(".cascade-body");
         var $thisCascadeTitle = $ele.find(".cascade-title");
+        if( typeof data !== "object" ){
+            var newData={};
+            newData[data]= getNameOfValue(data);
+            data =newData;
+        }
         var key = Object.keys(data)[0];
         var searchDom = $ele.find(".cascade-title").find(".cascade-search");
         if(searchDom.length){
@@ -229,6 +238,7 @@
             "search":true,
             "paging":20,
             "direction":"right",
+            "placeholder":"Search...",
             "isCategoriesSelected":true,
             "clickCallback":null,
             "selectCallback":null,
@@ -252,7 +262,7 @@
         var cascadeText = "<div class='cascade-text'></div>";
         var cascadeItemBox = "<div class='cascade-item-box cascade-"+options.direction+"'></div>";
         var $thisCascadeTitle = $(cascadeTitle).appendTo($ele);
-        initSearch(options.search,$thisCascadeTitle,cascadeText,event);
+        initSearch(options.search,$thisCascadeTitle,cascadeText,event,options.placeholder);
         var $thisCascadeBody = $(cascadeBody).appendTo($ele);
         event($ele,7);
 
@@ -289,7 +299,18 @@
                     break;
                 case 2: //鼠标移入子项事件
                     eventEle.on("mouseenter",function () {
-                        eventEle.find("> .cascade-item-box").show();
+                        var $box = eventEle.find("> .cascade-item-box").show();
+                        if($box.length == 0) return ;
+                        if($box.css("transform") !== "none") return;
+                        var offsetTop = $box.offset().top;
+                        var height = offsetTop + $box[0].offsetHeight;
+                        var parentHeight = eventEle.parent().offset().top + eventEle.parent()[0].offsetHeight;
+                        if (height>parentHeight){  //判断子类超出屏幕边界的问题
+                            var transformValue = height-parentHeight;
+                            transformValue = (offsetTop-transformValue)<0?transformValue-(transformValue-offsetTop):transformValue;
+                            var cssText = "translateY(-"+(transformValue).toString()+"px)";
+                            $box.css('transform',cssText);
+                        }
                     });
                     break;
                 case 3://鼠标移出子项事件
@@ -403,19 +424,13 @@
                         InitChildren(item.children[0],0,item.id,childrenEle,false,false);
                     }
                 }
-                if(options.selected && options.selected === index){
-                    if(options.search){
-                        $ele.find(".cascade-title").find(".cascade-search").val(item.name).attr("value",index);
-                    }else $ele.find(".cascade-title").find(".cascade-text").text(item.name).attr("value",index);
-                    delete options.selected;
-                }
             });
             if(status){
                 childrenEle = $(cascadeItem).appendTo($itemBox);
                 textEle = $(cascadeText).appendTo(childrenEle).text("←滚动翻页→").addClass("cascade-paging");
                 event(textEle,4);
             }
-            if(eventStatus) $itemBox.show();
+            if(eventStatus) $itemBox.mouseenter();
         };
 
         /**
@@ -444,12 +459,6 @@
                         InitChildren(item.children[0],0,item.id,parentEle,false,false);
                     }
                 }
-                if(options.selected && options.selected === index){
-                    if(options.search){
-                        $ele.find(".cascade-title").find(".cascade-search").val(item.name).attr("value",index);
-                    }else $ele.find(".cascade-title").find(".cascade-text").text(item.name).attr("value",index);
-                    delete options.selected;
-                }
             });
             if(status){
                 parentEle = $(cascadeItem).appendTo($thisCascadeBody);
@@ -463,16 +472,19 @@
         } else{
             initDom(data[pagingNum],false);
         }
+        if (options.selected) $ele.setCascadeData(options.selected);
         selectedStyle(null,true,$ele,$thisCascadeBody,$thisCascadeTitle);
         event($thisCascadeTitle,1);
 
-        this.getCascadeData = getCascadeData; //获取当前选中的数据
-        this.setCascadeData = setCascadeData; //设置选中数据
+        // this.getCascadeData = getCascadeData; //获取当前选中的数据
+        // this.setCascadeData = setCascadeData; //设置选中数据
         this.getNameOfValue = getNameOfValue; //根据value查找name
         return this
     }
 
     $.fn.extend({
-        "initCascadeDropDown": initCascadeDropDown
+        "initCascadeDropDown": initCascadeDropDown, //初始化下拉框
+        "getCascadeData": getCascadeData, //获取选中的数据
+        "setCascadeData": setCascadeData, //设置选中数据
     })
 })();
