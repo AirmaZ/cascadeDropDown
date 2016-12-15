@@ -200,9 +200,7 @@
         var $textEle = $ele.find(".cascade-title").find(".cascade-text");
         var $searchEle = $ele.find(".cascade-title").find(".cascade-search");
         var $selectEle = $textEle.length?$textEle:$searchEle;
-        var result = {};
-        result[$selectEle.attr("value")] = $selectEle.text() || $selectEle.val();
-        return result;
+        return {value:$selectEle.attr("value"),name:$selectEle.text() || $selectEle.val()};
     }
 
     /**

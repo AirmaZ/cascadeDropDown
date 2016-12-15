@@ -146,15 +146,7 @@ var dropDown = $("#dropDown").initCascadeDropDown({
         "selectCallback":function (data) {
             console.log("选中事件");
             console.log(data);
-        },
-        // "keyupCallback":function (data) {
-        //     console.log("keyup事件");
-        //     console.log(data);
-        // },
-        // "keydownCallback":function (data) {
-        //     console.log("keydown事件");
-        //     console.log(data);
-        // }
+        }
     },
     data : data
 });
