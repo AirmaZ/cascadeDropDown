@@ -93,7 +93,7 @@ $("#dropDown").initCascadeDropDown({  //尽量使用ID来初始化下拉框
 + #### API ####
 |接口名称 |参数|调用方式|描述|
 | -------------|:-------------: |:-------------:|:-----|
-| initCascadeDropDown |配置和数据| juqery实例调用|初始化组件|
-| getCascadeData |无| juqery实例调用|获得当前组件选中的值|
-| setCascadeData |string/int/object| juqery实例调用|设置组件选中值：1.传入string/int类型，组件会自动选中当前数据中存在的项。2.通过object（例：{"0x11":"选中"}）可强制选中当前数据中不存在的项|
+| initCascadeDropDown |配置和数据| jQuery实例调用|初始化组件|
+| getCascadeData |无| jQuery实例调用|获得当前组件选中的值|
+| setCascadeData |string/int/object| jQuery实例调用|设置组件选中值：1.传入string/int类型，组件会自动选中当前数据中存在的项。2.通过object（例：{"0x11":"选中"}）可强制选中当前数据中不存在的项|
 | getNameOfValue |string/int| 只能通过initCascadeDropDown返回值调用|根据value值查找组件中的文本|
