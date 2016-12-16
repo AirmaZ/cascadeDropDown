@@ -57,17 +57,21 @@
      * @param data
      * @param searchText
      */
-    function filterTree(data,searchText) {
+    function filterTree(data, searchText) {
         searchText = searchText.toLowerCase();
+        var obj = {};
         $.each(data,function (index, item) {
-            if (item.children) {
-                filterTree(item.children,searchText);
-            }
-            if (item.children && Object.keys(item.children).length == 0) item.children = undefined;
-            if (!item.children && item.name.toLowerCase().indexOf(searchText) === -1) {
-                delete data[index];
-            }
+            if (item.name.toLowerCase().indexOf(searchText) !== -1) {
+                obj[index] = item;
+            } else if (item.children) {
+                if(filterTree(item.children,searchText)){
+                    obj[index] = item;
+                }
+            } else return true;
         });
+        if(Object.keys(obj).length !== 0){
+            return obj;
+        } else return null;
     }
 
     /**
@@ -79,7 +83,7 @@
      */
     function tree(data,paging,searchText) {
         searchText = searchText || "";
-        filterTree(data,searchText);
+        data = filterTree(data,searchText) || {};
         var length = Object.keys(data).length;
         var pagingObj = [];
         for (var i = 0; i < length/paging; i++){
