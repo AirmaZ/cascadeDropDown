@@ -38,14 +38,18 @@
                     type = "DOMMouseScroll";
                 }
                 el.addEventListener(type, function(event) {
-                    fn.call(this, _eventCompat(event));
+                   if(!fn.call(this, _eventCompat(event))){
+                       event.preventDefault();
+                   }
                 }, capture || false);
             }
         } else if (window.attachEvent) {
             return function(el, type, fn, capture) {
                 el.attachEvent("on" + type, function(event) {
                     event = event || window.event;
-                    fn.call(el, _eventCompat(event));
+                    if(!fn.call(el, _eventCompat(event))){
+                        event.preventDefault();
+                    }
                 });
             }
         }
@@ -335,6 +339,7 @@
                                 selectedStyle(null,true,$ele,$thisCascadeBody,$thisCascadeTitle);
                             }
                         }
+                        return false;
                     });
                     break;
                 case 5://子层滚轮事件
@@ -355,6 +360,7 @@
                                 selectedStyle(null,true,$ele,$thisCascadeBody,$thisCascadeTitle);
                             }
                         }
+                        return false;
                     });
                     break;
                 case 6://搜索事件
