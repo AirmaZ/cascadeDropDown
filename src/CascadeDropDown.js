@@ -68,7 +68,7 @@
             if (item.name.toLowerCase().indexOf(searchText) !== -1) {
                 obj[index] = item;
             } else if (item.children) {
-                if(filterTree(item.children,searchText)){
+                if(item.children = filterTree(item.children,searchText)){
                     obj[index] = item;
                 }
             } else return true;
@@ -384,16 +384,22 @@
                     }
                     break;
                 case 7: //鼠标移出菜单收回
+                    var timer = null ; //用于误操作判断
                     eventEle.on("mouseleave",function () {
-                        $thisCascadeBody.hide();
-                        $thisCascadeTitle.removeClass("cascade-title-open");
-                        if(options.search && !inputFlag){  //如果存在搜索框的话需要将值重置
-                            $thisCascadeTitle.find(".cascade-search").val("").attr("value","");
-                            data = tree($.extend(true,{},params.data),options.paging,"");
-                            var status = data.length>1?1:0;
-                            initDom(data[0], status);
-                            selectedStyle(null,true,$ele,$thisCascadeBody,$thisCascadeTitle);
-                        }
+                        timer = window.setTimeout(function () {
+                            $thisCascadeBody.hide();
+                            $thisCascadeTitle.removeClass("cascade-title-open");
+                            if(options.search && !inputFlag){  //如果存在搜索框的话需要将值重置
+                                $thisCascadeTitle.find(".cascade-search").val("").attr("value","");
+                                data = tree($.extend(true,{},params.data),options.paging,"");
+                                var status = data.length>1?1:0;
+                                initDom(data[0], status);
+                                selectedStyle(null,true,$ele,$thisCascadeBody,$thisCascadeTitle);
+                            }
+                        },800);
+                    });
+                    eventEle.on("mouseenter",function () {
+                        clearTimeout(timer);
                     });
                     break;
                 default:break;
