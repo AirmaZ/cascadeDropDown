@@ -5,7 +5,7 @@
     height: 100%;
     box-sizing: border-box;
     border-radius: 0.15em 0.15em 0 0;
-    border: 0.05rem solid #77aeb5;
+    border: 0.05em solid #77aeb5;
     background-color: white;
     cursor: pointer;
     text-align: left;
@@ -45,7 +45,8 @@
     border: 0.05em solid #77aeb5;
     cursor: pointer;
     z-index: 10000;
-    transform: translateY(-0.05em);
+    margin-top: -0.05em;
+    /*transform: translateY(-0.05em);*/
 }
 .cascade-body-right {
     left: 0;
@@ -119,7 +120,7 @@
     color: #3e3e3e;
 }
 .cascade-paging {
-    font-size: 0.4em;
+    font-size: 0.65em;
     color: #979797;
     cursor: default;
 }

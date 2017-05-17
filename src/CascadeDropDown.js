@@ -34,7 +34,7 @@
         };
         if (window.addEventListener) {
             return function(el, type, fn, capture) {
-                if (type === "mousewheel" && document.mozHidden !== undefined) {
+                if (type === "mousewheel" && document.hidden !== undefined) {
                     type = "DOMMouseScroll";
                 }
                 el.addEventListener(type, function(event) {

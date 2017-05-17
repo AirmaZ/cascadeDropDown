@@ -131,9 +131,9 @@ var data = {
 var dropDown = $("#dropDown").initCascadeDropDown({
     options:{
         "width":"150px",
-        "height":"30px",
-        "size":"20px",
-        "paging":7,
+        "height":"24px",
+        "size":"12px",
+        "paging":15,
         "search":true,
         "selected":"001001",
         "direction":"right",
