@@ -34,7 +34,7 @@
         };
         if (window.addEventListener) {
             return function(el, type, fn, capture) {
-                if (type === "mousewheel" && document.hidden !== undefined) {
+                if (type === "mousewheel" && (navigator.userAgent.toUpperCase().indexOf("FIREFOX")!==-1?true:false)) {
                     type = "DOMMouseScroll";
                 }
                 el.addEventListener(type, function(event) {
