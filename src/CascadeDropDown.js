@@ -90,6 +90,15 @@
         data = filterTree(data,searchText) || {};
         var length = Object.keys(data).length;
         var pagingObj = [];
+        var array = [];
+        var getNumber = function(){  //产生不重复随机数
+            var number = Math.floor(Math.random()*50000);
+            if(array.indexOf(number) ===-1){
+                array.push(number);
+                return number;
+            }else {
+                getNumber();
+            }};
         for (var i = 0; i < length/paging; i++){
             pagingObj[i] = {};
             $.each(data,function (index,item) {
@@ -97,7 +106,7 @@
                 if(item.children){
                     item.children = tree($.extend(true,{},item.children),paging);
                 }
-                item["id"] = Math.random()*10000;
+                item["id"] = getNumber();
                 item["disable"] = item.disable;
                 pagingObj[i][index] = item;
                 delete data[index];
